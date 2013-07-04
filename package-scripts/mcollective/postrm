@@ -1,0 +1,9 @@
+#!/bin/bash
+#
+# Perform necessary mcollective removal steps
+# after package is uninstalled.
+#
+
+echo "mcollective has been uninstalled!"
+
+exit 0
