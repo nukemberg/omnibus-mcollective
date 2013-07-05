@@ -16,6 +16,8 @@ source :git => "https://github.com/puppetlabs/marionette-collective.git"
 
 relative_path "mcollective"
 
+MCOLLECTIVE_EXTRA_BINS = %w( ext/mc-irb bin/mcollectived bin/mc-call-agent ext/mc-rpc-restserver.rb)
+
 build do
   #####################################################################
   #
@@ -35,7 +37,7 @@ build do
   #####################################################################
   block do
     project = self.project
-    if project.name == "chef"
+    if project.name == "mcollective"
       git_cmd = "git describe --tags"
       src_dir = self.project_dir
       shell = Mixlib::ShellOut.new(git_cmd,
@@ -51,4 +53,12 @@ build do
 
   rake "gem"
   gem ["install", "build/*.gem", "-n #{install_dir}/bin", "--no-rdoc", "--no-ri"].join(" ")
+  command "rm -rf #{install_dir}/embedded/share/man"
+  block do # copy mcollective files
+    MCOLLECTIVE_EXTRA_BINS.each do |file|
+      FileUtils.cp ::File.join(project_dir, file), ::File.join(install_dir, "bin/")
+    end
+    FileUtils.cp_r ::File.join(project_dir, "plugins"), install_dir
+    FileUtils.cp_r ::File.join(Omnibus.project_root, "files", "etc"), install_dir
+  end
 end

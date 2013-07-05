@@ -5,12 +5,34 @@
 #
 
 PROGNAME=$(basename $0)
+CONFIG_DIR=/etc/mcollective
 
 function error_exit
 {
   echo "${PROGNAME}: ${1:-"Unknown Error"}" 1>&2
   exit 1
 }
+
+is_smartos()
+{
+  uname -v | grep ^joyent 2>&1>/dev/null
+}
+
+if is_smartos; then
+    PREFIX="/opt/local"
+else
+    PREFIX="/usr"
+fi
+
+mkdir $CONFIG_DIR
+cp $INSTALLER_DIR/etc/* $CONFIG_DIR/
+
+# rm -f before ln -sf is required for solaris 9
+rm -f $PREFIX/bin/mco
+rm -f $PREFIX/bin/mcollectived
+
+ln -sf $INSTALLER_DIR/bin/mco $PREFIX/bin || error_exit "Cannot link mco to $PREFIX/bin"
+ln -sf $INSTALLER_DIR/bin/mcollectived $PREFIX/bin || error_exit "Cannot link mcollectived to $PREFIX/bin"
 
 echo "Thank you for installing mcollective!"
 

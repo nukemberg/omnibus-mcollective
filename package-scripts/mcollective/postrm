@@ -4,6 +4,18 @@
 # after package is uninstalled.
 #
 
+if is_smartos; then
+    PREFIX="/opt/local"
+else
+    PREFIX="/usr"
+fi
+
+# `if` cargo culted from omnibus-chef
+if [ ! -e /etc/redhat-release -o "x$1" == "x0" ]; then
+  rm -f $PREFIX/bin/mco
+  rm -f $PREFIX/bin/mcollectived
+fi
+
 echo "mcollective has been uninstalled!"
 
 exit 0
