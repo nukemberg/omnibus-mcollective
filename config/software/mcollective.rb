@@ -60,5 +60,6 @@ build do
     end
     FileUtils.cp_r ::File.join(project_dir, "plugins"), install_dir
     FileUtils.cp_r ::File.join(Omnibus.project_root, "files", "etc"), install_dir
+    FileUtils.cp_r ::File.join(Omnibus.project_root, "files", "mcollective.init"), install_dir
   end
 end
