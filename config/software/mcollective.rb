@@ -54,12 +54,14 @@ build do
   rake "gem"
   gem ["install", "build/*.gem", "-n #{install_dir}/bin", "--no-rdoc", "--no-ri"].join(" ")
   command "rm -rf #{install_dir}/embedded/share/man"
+  command "rm -rf #{install_dir}/embedded/man"
+  command "rm -rf #{install_dir}/embedded/ssl/man"
   block do # copy mcollective files
     MCOLLECTIVE_EXTRA_BINS.each do |file|
       FileUtils.cp ::File.join(project_dir, file), ::File.join(install_dir, "bin/")
     end
     FileUtils.cp_r ::File.join(project_dir, "plugins"), install_dir
     FileUtils.cp_r ::File.join(Omnibus.project_root, "files", "etc"), install_dir
-    FileUtils.cp_r ::File.join(Omnibus.project_root, "files", "mcollective.init"), install_dir
+    FileUtils.cp_r ::File.join(Omnibus.project_root, "files", "mcollective.init"), install_dir  
   end
 end
