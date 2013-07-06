@@ -18,9 +18,9 @@
 # Description:       Enable service provided by daemon.
 ### END INIT INFO
 
-is_smartos()
+is_smartos ()
 {
-  uname -v | grep ^joyent 2>&1>/dev/null
+  uname -v | grep -q -E '^joyent'
 }
 
 if is_smartos; then

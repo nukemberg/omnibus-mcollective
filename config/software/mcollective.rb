@@ -16,7 +16,21 @@ source :git => "https://github.com/puppetlabs/marionette-collective.git"
 
 relative_path "mcollective"
 
-MCOLLECTIVE_EXTRA_BINS = %w( ext/mc-irb bin/mcollectived bin/mc-call-agent ext/mc-rpc-restserver.rb)
+MCOLLECTIVE_EXTRA_BINS = %w( ext/mc-irb ext/mc-rpc-restserver.rb)
+GEM_DEPENDENCIES = %w(systemu json stomp i18n)
+
+def copy_bin(bin_file)
+  target_filename = ::File.join(install_dir, "bin", ::File.basename(bin_file))
+  # instead of using sed to replace the shabang, we use ruby ;)
+  File.open(bin_file, "r") do |f|
+    File.open(target_filename, 'w') do |target_file|
+      target_file.puts "#!#{install_dir}/embedded/bin/ruby"
+      target_file.write f.lines.to_a[1..-1].join("\n")
+    end
+  end
+  #FileUtils.chown "root", "root", target_filename
+  FileUtils.chmod 0755, target_filename
+end
 
 build do
   #####################################################################
@@ -51,17 +65,30 @@ build do
     end
   end
 
-  rake "gem"
-  gem ["install", "build/*.gem", "-n #{install_dir}/bin", "--no-rdoc", "--no-ri"].join(" ")
-  command "rm -rf #{install_dir}/embedded/share/man"
-  command "rm -rf #{install_dir}/embedded/man"
-  command "rm -rf #{install_dir}/embedded/ssl/man"
+  gem (["install"] + GEM_DEPENDENCIES + ["-n #{install_dir}/bin", "--no-rdoc", "--no-ri"]).join(" ")
+
+  ["docs",
+   "share/man",
+   "share/doc",
+   "share/gtk-doc",
+   "ssl/man",
+   "man",
+   "info"].each do |dir|
+    command "rm -rf #{install_dir}/embedded/#{dir}"
+  end
+
   block do # copy mcollective files
     MCOLLECTIVE_EXTRA_BINS.each do |file|
-      FileUtils.cp ::File.join(project_dir, file), ::File.join(install_dir, "bin/")
+      copy_bin(::File.join(project_dir, file))
     end
+    Dir.glob(::File.join(project_dir, "bin", "*")).each {|f| copy_bin(f)}
+    ruby_lib_dir = ::File.join(install_dir, "embedded", "lib", "ruby", "site_ruby", "1.9.1")
+    FileUtils.cp_r Dir.glob(::File.join(project_dir, "lib", "*")), ruby_lib_dir
     FileUtils.cp_r ::File.join(project_dir, "plugins"), install_dir
     FileUtils.cp_r ::File.join(Omnibus.project_root, "files", "etc"), install_dir
-    FileUtils.cp_r ::File.join(Omnibus.project_root, "files", "mcollective.init"), install_dir  
+    FileUtils.cp_r ::File.join(Omnibus.project_root, "files", "mcollective.init"), install_dir 
+
+    # chown all files
+    #FileUtils.chown "root", "root", Dir.glob(File.join(install_dir, "**")) 
   end
 end
