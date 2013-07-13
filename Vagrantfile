@@ -19,6 +19,11 @@ Vagrant.configure("2") do |config|
     c.berkshelf.berksfile_path = "./Berksfile"
     c.vm.box = "canonical-ubuntu-12.04"
     c.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box"
+    c.vm.provider :virtualbox do |vb|
+      vb.customize ['storagectl', :id, '--name', 'SATAController', '--hostiocache', 'on']
+      vb.customize ['storagectl', :id, '--name', 'SATAController', '--controller', 'IntelAHCI']
+      vb.customize ['modifyvm', :id, "--chipset", "ich9"]
+    end
   end
 
   config.vm.define 'centos-5' do |c|
@@ -31,6 +36,11 @@ Vagrant.configure("2") do |config|
     c.berkshelf.berksfile_path = "./Berksfile"
     c.vm.box = "opscode-centos-6.3"
     c.vm.box_url = "http://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-6.3_chef-11.2.0.box"
+    c.vm.provider :virtualbox do |vb|
+      vb.customize ['storagectl', :id, '--name', 'SATA Controller', '--hostiocache', 'on']
+      vb.customize ['storagectl', :id, '--name', 'SATA Controller', '--controller', 'IntelAHCI']
+      vb.customize ['modifyvm', :id, "--chipset", "ich9"]
+    end
   end
 
   config.vm.provider :virtualbox do |vb|
@@ -40,9 +50,6 @@ Vagrant.configure("2") do |config|
       "--memory", "1536",
       "--cpus", "2"
     ]
-     vb.customize ['storagectl', :id, '--name', 'SATAController', '--hostiocache', 'on']
-     vb.customize ['storagectl', :id, '--name', 'SATAController', '--controller', 'IntelAHCI']
-     vb.customize ['modifyvm', :id, "--chipset", "ich9"]
   end
 
   # Ensure a recent version of the Chef Omnibus packages are installed
@@ -81,6 +88,6 @@ Vagrant.configure("2") do |config|
     export PATH=/usr/local/bin:$PATH
     cd #{guest_project_path}
     su vagrant -c "bundle install --binstubs"
-    su vagrant -c "bin/omnibus build project #{project_name}"
+    su vagrant -c "env MCOLLECTIVE_GIT_REV=#{ENV['MCOLLECTIVE_GIT_REV']} bin/omnibus build project #{project_name}"
   OMNIBUS_BUILD
 end
