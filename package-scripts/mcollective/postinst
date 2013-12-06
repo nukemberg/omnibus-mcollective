@@ -25,8 +25,8 @@ else
     PREFIX="/usr"
 fi
 
-[ -d "$CONFIG_DIR" ] && mkdir $CONFIG_DIR
-cp -a $INSTALLER_DIR/etc/* $CONFIG_DIR/
+[ -d "$CONFIG_DIR" ] || mkdir $CONFIG_DIR
+cp -a -u $INSTALLER_DIR/etc/* $CONFIG_DIR/
 
 # rm -f before ln -sf is required for solaris 9
 rm -f $PREFIX/bin/mco
