@@ -66,6 +66,8 @@ build do
   end
 
   gem (["install"] + GEM_DEPENDENCIES + ["-n #{install_dir}/bin", "--no-rdoc", "--no-ri"]).join(" ")
+  gem "install puppet --no-ri --no-rdoc"
+  gem "install ohai --no-ri --no-rdoc"
 
   ["docs",
    "share/man",
@@ -78,6 +80,13 @@ build do
   end
 
   block do # copy mcollective files
+    # Replace the version stub
+    if version =~ /\d\.\d\.\d/
+      mcollective_rb = File.join(prject_dir, "lib", "mcollective.rb")
+      File.write(mcollective_rb, 
+        File.read(mcollective_rb).gsub("@DEVELOPMENT_VERSION@", version))
+    end
+    
     MCOLLECTIVE_EXTRA_BINS.each do |file|
       copy_bin(::File.join(project_dir, file))
     end
