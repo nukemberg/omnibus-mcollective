@@ -1,4 +1,3 @@
-
 name "mcollective"
 maintainer "Avishai Ish-Shalom"
 homepage "https://puppetlabs.com/mcollective/introduction/"
@@ -13,6 +12,10 @@ dependency "preparation"
 
 # mcollective dependencies/components
 dependency "mcollective"
+dependency "mcollective-ohai-facts"
+dependency "mcollective-facter-facts"
+dependency "mcollective-service-agent"
+dependency "mcollective-filemgr-agent"
 
 # version manifest file
 dependency "version-manifest"
