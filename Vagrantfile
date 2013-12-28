@@ -83,6 +83,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision :shell, :inline => <<-OMNIBUS_BUILD
     export PATH=/usr/local/bin:$PATH
     cd #{guest_project_path}
+    rm /tmp/omnibus/build/mcollective/mcollective.manifest
     su vagrant -c "bundle install --binstubs"
     su vagrant -c "env MCOLLECTIVE_GIT_REV=#{ENV['MCOLLECTIVE_GIT_REV']} bin/omnibus build project #{project_name}"
   OMNIBUS_BUILD

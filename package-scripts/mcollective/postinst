@@ -25,8 +25,14 @@ else
     PREFIX="/usr"
 fi
 
-[ -d "$CONFIG_DIR" ] || mkdir $CONFIG_DIR
-cp -a -u $INSTALLER_DIR/etc/* $CONFIG_DIR/
+[[ -d "$CONFIG_DIR" ]] || mkdir $CONFIG_DIR
+[[ -d "/var/lib/mcollective/plugins" ]] || mkdir -p "/var/lib/mcollective/plugins"
+
+for file in $INSTALLER_DIR/etc/*; do
+	if [[ ! -d $file && -f "$file" && ! -f "$CONFIG_DIR/$(basename $file)" ]]; then
+		cp $file $CONFIG_DIR/
+	fi
+done
 
 # rm -f before ln -sf is required for solaris 9
 rm -f $PREFIX/bin/mco
