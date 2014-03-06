@@ -34,11 +34,11 @@ Vagrant.configure("2") do |config|
 
   config.vm.define 'centos-6' do |c|
     c.berkshelf.berksfile_path = "./Berksfile"
-    c.vm.box = "opscode-centos-6.3"
-    c.vm.box_url = "http://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-6.3_chef-11.2.0.box"
+    c.vm.box = "opscode-centos-6.5"
+    c.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.5_chef-provisionerless.box"
     c.vm.provider :virtualbox do |vb|
-      vb.customize ['storagectl', :id, '--name', 'SATA Controller', '--hostiocache', 'on']
-      vb.customize ['storagectl', :id, '--name', 'SATA Controller', '--controller', 'IntelAHCI']
+      vb.customize ['storagectl', :id, '--name', 'IDE Controller', '--hostiocache', 'on']
+      vb.customize ['storagectl', :id, '--name', 'IDE Controller', '--controller', 'ICH6']
       vb.customize ['modifyvm', :id, "--chipset", "ich9"]
     end
   end
@@ -85,6 +85,7 @@ Vagrant.configure("2") do |config|
     cd #{guest_project_path}
     rm /tmp/omnibus/build/mcollective/mcollective.manifest
     su vagrant -c "bundle install --binstubs"
+    echo building version #{ENV['MCOLLECTIVE_GIT_REV']}
     su vagrant -c "env MCOLLECTIVE_GIT_REV=#{ENV['MCOLLECTIVE_GIT_REV']} bin/omnibus build project #{project_name}"
   OMNIBUS_BUILD
 end

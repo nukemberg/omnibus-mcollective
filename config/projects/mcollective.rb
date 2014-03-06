@@ -4,7 +4,7 @@ homepage "https://puppetlabs.com/mcollective/introduction/"
 
 replaces        "mcollective"
 install_path    "/opt/mcollective"
-build_version   Omnibus::BuildVersion.new.semver
+build_version   ENV["MCOLLECTIVE_GIT_REV"]
 build_iteration 1
 
 # creates required build directories
