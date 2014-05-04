@@ -27,6 +27,16 @@ where the `build project` command is invoked. So running this command on say a
 MacBook Pro will generate a Mac OS X specific package. After the build
 completes packages will be available in `pkg/`.
 
+### Building on multiple platforms
+
+To build on various platforms, use `test-kitchen`. Once you have `test-kitchen` installed you can issue the following commands:
+
+    kitchen setup default-ubuntu-1204 && kitchen exec default-ubuntu-1204 'bash -l -c "cd /home/vagrant/test; bundle install --binstubs && bundle exec env MCOLLECTIVE_GIT_REV=2.5.0 omnibus build project mcollective"'
+    kitchen destroy default-ubuntu-1204
+
+This will build mcollective 2.5.0 omnibus package on an Ubuntu 12.04 VM.
+To customize the build machines use `.kitchen.local.yml` as specified on the `test-kitchen` docs.
+
 ### Clean
 
 You can clean up all temporary files generated during the build process with
