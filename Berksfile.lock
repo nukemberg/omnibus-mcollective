@@ -1,57 +1,25 @@
-{
-  "sources": {
-    "omnibus": {
-      "locked_version": "1.2.3",
-      "git": "https://github.com/opscode-cookbooks/omnibus.git",
-      "ref": "38a16afcecbe570a41913a1a91db47e9cc7f3d06"
-    },
-    "yum": {
-      "locked_version": "2.2.4"
-    },
-    "apt": {
-      "locked_version": "1.9.2"
-    },
-    "build-essential": {
-      "locked_version": "1.4.4"
-    },
-    "git": {
-      "locked_version": "2.3.0"
-    },
-    "dmg": {
-      "locked_version": "2.2.0"
-    },
-    "windows": {
-      "locked_version": "1.30.0"
-    },
-    "chef_handler": {
-      "locked_version": "1.1.5"
-    },
-    "runit": {
-      "locked_version": "1.5.8"
-    },
-    "yum-epel": {
-      "locked_version": "0.3.4"
-    },
-    "homebrew": {
-      "locked_version": "1.5.4"
-    },
-    "pkgin": {
-      "locked_version": "0.4.0"
-    },
-    "pkgutil": {
-      "locked_version": "0.0.3"
-    },
-    "rbenv": {
-      "locked_version": "1.6.5"
-    },
-    "ohai": {
-      "locked_version": "2.0.0"
-    },
-    "wix": {
-      "locked_version": "1.1.0"
-    },
-    "7-zip": {
-      "locked_version": "1.0.2"
-    }
-  }
-}
+DEPENDENCIES
+  omnibus
+    git: https://github.com/opscode-cookbooks/omnibus.git
+    revision: e78bb4ec72cc8bff472aeb27d80a58701db18c00
+  yum (~> 2.2.0)
+
+GRAPH
+  7-zip (1.0.2)
+    windows (>= 1.2.2)
+  build-essential (2.0.2)
+  chef-sugar (1.2.8)
+  chef_handler (1.1.6)
+  homebrew (1.6.0)
+  omnibus (2.0.3)
+    7-zip (~> 1.0)
+    build-essential (~> 2.0)
+    chef-sugar (~> 1.1)
+    homebrew (~> 1.5)
+    windows (~> 1.30)
+    wix (~> 1.1)
+  windows (1.30.2)
+    chef_handler (>= 0.0.0)
+  wix (1.1.0)
+    windows (>= 1.2.2)
+  yum (2.2.4)
