@@ -1,4 +1,5 @@
 DEPENDENCIES
+  apt
   omnibus
     git: https://github.com/opscode-cookbooks/omnibus.git
     revision: e78bb4ec72cc8bff472aeb27d80a58701db18c00
@@ -7,6 +8,7 @@ DEPENDENCIES
 GRAPH
   7-zip (1.0.2)
     windows (>= 1.2.2)
+  apt (2.3.10)
   build-essential (2.0.2)
   chef-sugar (1.2.8)
   chef_handler (1.1.6)
