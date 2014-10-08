@@ -2,8 +2,8 @@ name "mcollective"
 maintainer "Avishai Ish-Shalom"
 homepage "https://puppetlabs.com/mcollective/introduction/"
 
-replaces        "mcollective"
-install_path    "/opt/mcollective"
+replace         "mcollective"
+install_dir     "/opt/mcollective"
 build_version   ENV["MCOLLECTIVE_GIT_REV"]
 build_iteration 1
 
