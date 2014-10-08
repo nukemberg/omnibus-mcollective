@@ -1,6 +1,6 @@
 name "mcollective-ohai-facts"
 source :git => "https://github.com/puppetlabs/mcollective-ohai-facts.git"
-version "master"
+default_version "master"
 
 dependency "mcollective"
 

@@ -1,6 +1,6 @@
 name "mcollective-facter-facts"
 source :git => "https://github.com/puppetlabs/mcollective-facter-facts.git"
-version "master"
+default_version "master"
 
 dependency "mcollective"
 

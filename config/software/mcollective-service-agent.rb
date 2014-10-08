@@ -1,6 +1,6 @@
 name "mcollective-service-agent"
 source :git => "https://github.com/puppetlabs/mcollective-service-agent.git"
-version "master"
+default_version "master"
 
 dependency "mcollective"
 

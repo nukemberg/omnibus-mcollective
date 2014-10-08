@@ -1,6 +1,6 @@
 name "mcollective-filemgr-agent"
 source :git => "https://github.com/puppetlabs/mcollective-filemgr-agent.git"
-version "master"
+default_version "master"
 
 dependency "mcollective"
 

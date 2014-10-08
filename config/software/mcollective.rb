@@ -6,7 +6,7 @@
 #  https://github.com/opscode/omnibus-software/tree/master/config/software
 #
 name "mcollective"
-version ENV["MCOLLECTIVE_GIT_REV"] || "master"
+default_version ENV["MCOLLECTIVE_GIT_REV"] || "master"
 
 dependency "ruby"
 dependency "rubygems"
