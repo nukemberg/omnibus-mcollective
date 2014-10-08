@@ -19,19 +19,6 @@ relative_path "mcollective"
 MCOLLECTIVE_EXTRA_BINS = %w( ext/mc-irb ext/mc-rpc-restserver.rb)
 GEM_DEPENDENCIES = %w(systemu json stomp i18n)
 
-def copy_bin(bin_file)
-  target_filename = ::File.join(install_dir, "bin", ::File.basename(bin_file))
-  # instead of using sed to replace the shabang, we use ruby ;)
-  File.open(bin_file, "r") do |f|
-    File.open(target_filename, 'w') do |target_file|
-      target_file.puts "#!#{install_dir}/embedded/bin/ruby"
-      target_file.write f.lines.to_a[1..-1].join("\n")
-    end
-  end
-  #FileUtils.chown "root", "root", target_filename
-  FileUtils.chmod 0755, target_filename
-end
-
 build do
   #####################################################################
   #
@@ -81,6 +68,19 @@ build do
   end
 
   block do # copy mcollective files
+    def copy_bin(bin_file)
+      target_filename = ::File.join(install_dir, "bin", ::File.basename(bin_file))
+      # instead of using sed to replace the shabang, we use ruby ;)
+      File.open(bin_file, "r") do |f|
+        File.open(target_filename, 'w') do |target_file|
+          target_file.puts "#!#{install_dir}/embedded/bin/ruby"
+          target_file.write f.lines.to_a[1..-1].join("\n")
+        end
+      end
+      #FileUtils.chown "root", "root", target_filename
+      FileUtils.chmod 0755, target_filename
+    end
+
     # Replace the version stub
     if version =~ /\d\.\d\.\d/
       mcollective_rb = File.join(project_dir, "lib", "mcollective.rb")
