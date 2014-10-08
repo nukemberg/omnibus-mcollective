@@ -1,29 +1,54 @@
+#
+# NOTE: this runs the omnibus cookbook, but does not actually run Omnibus. Use
+# 'kichen converge' to setup the virtual machine and then `kitchen login` to
+# SSH into the machine and run Omnibus.
+#
+
 driver:
   name: vagrant
+  forward_agent: yes
   customize:
-    cpus: 2
-    memory: 2048
+    cpus: 4
+    memory: 4096
   synced_folders:
-    - ['.', '/home/vagrant/test']
+    - ['.', '/home/vagrant/omnibus-mcollective']
+    - ['../omnibus', '/home/vagrant/omnibus']
+    - ['../omnibus-software', '/home/vagrant/omnibus-software']
 
 provisioner:
-  require_chef_omnibus: 11.8.0
+  name: chef_zero
+  require_chef_omnibus: 11.16.2
 
 platforms:
+  - name: centos-5.10
+    run_list: yum-epel::default
+  - name: centos-6.5
+    run_list: yum-epel::default
+  - name: debian-7.2.0
+    run_list: apt::default
+  - name: debian-7.4
+    run_list: apt::default
   - name: ubuntu-12.04
     run_list: apt::default
-  - name: ubuntu-11.04
+  - name: ubuntu-12.10
     run_list: apt::default
-  - name: ubuntu-10.04
+  - name: ubuntu-13.04
     run_list: apt::default
-  - name: centos-5.10
-  - name: centos-6.5
+  - name: ubuntu-13.10
+    run_list: apt::default
+  - name: ubuntu-14.04
+    run_list: apt::default
+
+attribute_defaults: &attribute_defaults
+  build_user:          vagrant
+  build_user_group:    vagrant
+  build_user_password: vagrant
 
 suites:
-  - name: default
-    run_list: omnibus::default
+  - name: chef
     attributes:
       omnibus:
-        build_user:  vagrant
-        build_dir:   /home/vagrant/mcollective
-        install_dir: /opt/mcollective
+        <<: *attribute_defaults
+        install_dir: /opt/chef
+    run_list:
+      - omnibus::default
