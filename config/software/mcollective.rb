@@ -93,14 +93,15 @@ build do
     end
     Dir.glob(::File.join(project_dir, "bin", "*")).each {|f| copy_bin(f)}
     ruby_lib_dir = ::File.join(install_dir, "embedded", "lib", "ruby", "site_ruby", "2.1.5")
-    FileUtils.cp_r Dir.glob(::File.join(project_dir, "lib", "*")), ruby_lib_dir
+    mkdir(::File.join(ruby_lib_dir, "mcollective"))
+    copy(::File.join(project_dir, "lib", "*"), ::File.join(ruby_lib_dir, "mcollective"))
     if File.exist?(File.join(project.files_path, "plugins", "mcollective"))
-      FileUtils.cp_r ::File.join(project.files_path, "plugins"), install_dir
+      copy ::File.join(project.files_path, "plugins"), install_dir
     else
-      FileUtils.mkdir_p ::File.join(install_dir, "plugins", "mcollective")
+      mkdir ::File.join(install_dir, "plugins", "mcollective")
     end
-    FileUtils.cp_r ::File.join(project.files_path, "etc"), install_dir
-    FileUtils.cp_r ::File.join(project.files_path, "mcollective.init"), install_dir 
+    copy ::File.join(project.files_path, "etc"), install_dir
+    copy ::File.join(project.files_path, "mcollective.init"), install_dir 
 
     # chown all files
     #FileUtils.chown "root", "root", Dir.glob(File.join(install_dir, "**")) 
