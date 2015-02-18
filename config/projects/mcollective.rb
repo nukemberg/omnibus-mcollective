@@ -10,6 +10,9 @@ build_iteration 1
 # creates required build directories
 dependency "preparation"
 
+override :ruby, version: "2.1.5"
+override :rubygems, version: "2.4.5"
+
 # mcollective dependencies/components
 dependency "mcollective"
 dependency "mcollective-ohai-facts"

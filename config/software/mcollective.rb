@@ -8,7 +8,7 @@
 name "mcollective"
 default_version ENV["MCOLLECTIVE_GIT_REV"] || "master"
 
-dependency "ruby"
+dependency "ruby" 
 dependency "rubygems"
 dependency "bundler"
 
