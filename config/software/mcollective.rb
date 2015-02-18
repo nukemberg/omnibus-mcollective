@@ -94,7 +94,11 @@ build do
     Dir.glob(::File.join(project_dir, "bin", "*")).each {|f| copy_bin(f)}
     ruby_lib_dir = ::File.join(install_dir, "embedded", "lib", "ruby", "site_ruby", "1.9.1")
     FileUtils.cp_r Dir.glob(::File.join(project_dir, "lib", "*")), ruby_lib_dir
-    FileUtils.cp_r ::File.join(project_dir, "plugins"), install_dir
+    if File.exist?(File.join(project_dir, "plugis", "mcollective"))
+      FileUtils.cp_r ::File.join(project_dir, "plugins"), install_dir
+    else
+      FileUtils.mkdir_p ::File.join(install_dir, "plugins", "mcollective")
+    end
     FileUtils.cp_r ::File.join(project_root, "files", "etc"), install_dir
     FileUtils.cp_r ::File.join(project_root, "files", "mcollective.init"), install_dir 
 

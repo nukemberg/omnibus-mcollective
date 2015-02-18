@@ -8,22 +8,22 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    chef-sugar (2.3.2)
+    chef-sugar (2.5.0)
     cleanroom (1.0.0)
-    ffi (1.9.5)
-    ffi-yajl (1.1.0)
+    ffi (1.9.6)
+    ffi-yajl (1.4.0)
       ffi (~> 1.5)
-      libyajl2 (~> 1.0)
+      libyajl2 (~> 1.2)
     ipaddress (0.8.0)
-    libyajl2 (1.0.1)
+    libyajl2 (1.2.0)
     mime-types (1.25.1)
     mixlib-cli (1.5.0)
     mixlib-config (2.1.0)
     mixlib-log (1.6.0)
-    mixlib-shellout (1.6.0)
-    ohai (7.4.0)
+    mixlib-shellout (1.6.1)
+    ohai (7.4.1)
       ffi (~> 1.9)
-      ffi-yajl (~> 1.0)
+      ffi-yajl (~> 1.1)
       ipaddress
       mime-types (~> 1.16)
       mixlib-cli
@@ -32,7 +32,7 @@ GEM
       mixlib-shellout (~> 1.2)
       systemu (~> 2.6.4)
       wmi-lite (~> 1.0)
-    omnibus (4.0.0.rc.1)
+    omnibus (4.0.0)
       chef-sugar (~> 2.2)
       cleanroom (~> 1.0)
       mixlib-shellout (~> 1.4)
@@ -49,5 +49,5 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  omnibus (= 4.0.0.rc1)
+  omnibus (= 4.0.0)
   omnibus-software!
